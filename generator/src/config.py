@@ -2,7 +2,7 @@ import yaml
 import datetime
 from utils import Range
 
-with open('generator/config.yml', 'r') as file:
+with open('../config.yml', 'r') as file:
     config = yaml.safe_load(file)
 
 MAX_CONSULTATIONS_PER_TEACHER = config['max_consultations_per_teacher']
