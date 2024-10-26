@@ -1,17 +1,28 @@
-students_number: 1000
-groups_number: 100
-grades_number: 10000
-subjects_number: 100
-teachers_number: 100
-surveys_number: 10000
+time_moments:
+  1: 
+    students_number: 100
+    groups_number: 10
+    grades_number: 1000
+    teachers_number: 100
+    surveys_number: 1000
+    studies_number: 1000
+    teachings_number: 1000
+    date_range: 
+      min: "2020-01-01"
+      max: "2022-12-31"
+  2: 
+    students_number: 10
+    groups_number: 1
+    grades_number: 100
+    teachers_number: 10
+    surveys_number: 100
+    studies_number: 100
+    teachings_number: 100
+    date_range: 
+      min: "2023-01-01"
+      max: "2024-12-31"
+
 max_consultations_per_teacher: 200
-
-studies_number: 1000
-teachings_number: 1000
-
-surveys_date_range:
-  min: "2020-01-01"
-  max: "2023-12-31"
 
 assessments_grade_range:
   min: 1
@@ -25,14 +36,6 @@ grades_range:
   min: 1
   max: 10
 
-studies_year_range:
-  min: 2020
-  max: 2024
-
-subjects_year_range:
-  min: 2020
-  max: 2024
-
 consultations_per_teacher_range:
   min: 0
   max: 25
@@ -40,10 +43,6 @@ consultations_per_teacher_range:
 consultations_duration_range:
   min: 30
   max: 180
-
-consultations_datetime_range:
-  min: "2020-01-01T00:00:00"
-  max: "2023-12-31T23:59:59"
 
 faker_localization: 'pl_PL'
 
@@ -86,30 +85,30 @@ specializations:
   - e-sportowy
 
 subjects:
-- język polski
-- język obcy nowożytny
-- drugi język obcy nowożytny
-- muzyka
-- plastyka
-- historia
-- wiedza o społeczeństwie
-- przyroda
-- geografia
-- biologia
-- chemia
-- fizyka
-- matematyka
-- informatyka
-- technika
-- wychowanie fizyczne
-- edukacja dla bezpieczeństwa
-- wychowanie do życia w rodzinie
-- etyka
-- historia i teraźniejszość
-- podstawy przedsiębiorczości
-- edukacja dla bezpieczeństwa
-- wychowanie do życia w rodzinie
-- język łaciński i kultura antyczna
+  - język polski
+  - język obcy nowożytny
+  - drugi język obcy nowożytny
+  - muzyka
+  - plastyka
+  - historia
+  - wiedza o społeczeństwie
+  - przyroda
+  - geografia
+  - biologia
+  - chemia
+  - fizyka
+  - matematyka
+  - informatyka
+  - technika
+  - wychowanie fizyczne
+  - edukacja dla bezpieczeństwa
+  - wychowanie do życia w rodzinie
+  - etyka
+  - historia i teraźniejszość
+  - podstawy przedsiębiorczości
+  - edukacja dla bezpieczeństwa
+  - wychowanie do życia w rodzinie
+  - język łaciński i kultura antyczna
 
 assessments_questions:
   - "Czy zajęcia były prowadzone w sposób zrozumiały?"

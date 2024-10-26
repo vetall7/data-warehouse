@@ -11,8 +11,8 @@ class Range:
         return random.randint(self.min, self.max)
 
 
-def save_to_csv(data, file_name):
-    data_dir = os.path.join(os.path.dirname(__file__), '..', 'data')
+def save_to_csv(data, path, file_name):
+    data_dir = os.path.join(os.path.dirname(__file__), '..', 'data', path)
     os.makedirs(data_dir, exist_ok=True)
 
     data_df = pd.DataFrame([vars(o) for o in data])

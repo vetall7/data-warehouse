@@ -30,11 +30,11 @@ class Students:
         self.address = faker.address()
 
 class Studies:
-    def __init__(self, student_pesel, group_id):
+    def __init__(self, student_pesel, group_id, config):
         self.id = next(id_iters['study'])
         self.student_id = student_pesel
         self.group_id = group_id
-        self.year = STUDIES_YEAR_RANGE.random()
+        self.year = random.randint(config['date_range'].min.year, config['date_range'].max.year)
 
 class Teachers:
     def __init__(self):
@@ -44,10 +44,10 @@ class Teachers:
         self.phone = faker.unique.numerify(PHONE_NUMBER)
 
 class Subjects:
-    def __init__(self):
+    def __init__(self, name, year):
         self.id = next(id_iters['subject'])
-        self.year = SUBJECTS_YEAR_RANGE.random()
-        self.name = random.choice(SUBJECTS)
+        self.year = year
+        self.name = name
 
 class Groups:
     def __init__(self, specialization_id):
@@ -84,16 +84,16 @@ class Teachings:
         self.group_id = group_id
 
 class Surveys:
-    def __init__(self, student_id, subject_id, teacher_id):
+    def __init__(self, student_id, subject_id, teacher_id, config):
         self.id = next(id_iters['survey'])
-        self.date = faker.date_between(SURVEYS_DATE_RANGE.min, SURVEYS_DATE_RANGE.max)
+        self.date = faker.date_between(config['date_range'].min, config['date_range'].max)
         self.student_id = student_id
         self.subject_id = subject_id
         self.teacher_id = teacher_id
 
 class Consultations:
-    def __init__(self, teacher_id):
+    def __init__(self, teacher_id, config):
         self.id = next(id_iters['consultation'])
         self.teacher_id = teacher_id
-        self.date = faker.date_time_between(CONSULTATIONS_DATETIME_RANGE.min, CONSULTATIONS_DATETIME_RANGE.max)
+        self.date = faker.date_time_between(config['date_range'].min, config['date_range'].max)
         self.duration = datetime.timedelta(minutes=CONSULTATIONS_DURATION_RANGE.random())
