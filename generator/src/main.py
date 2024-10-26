@@ -61,9 +61,10 @@ def generate(config_number):
     execution_time = end_time - start_time
     print(f"Execution time {config_number}: {execution_time:.2f} seconds")
 
+
 def main():
-    generate(config_number=1)
-    generate(config_number=2)
+    for i in CONFIG_SETS.keys():
+        generate(config_number=i)
 
 
 if __name__ == "__main__":

@@ -18,10 +18,7 @@ SPECIALIZATIONS = config['specializations']
 SUBJECTS = config['subjects']
 ASSESSMENTS_QUESTIONS = config['assessments_questions']
 
-CONFIG_SETS = {
-    1: config['time_moments'][1],
-    2: config['time_moments'][2]
-}
+CONFIG_SETS = config['time_moments']
 
 def get_config_set(set_number):
     config_set = CONFIG_SETS[set_number]
