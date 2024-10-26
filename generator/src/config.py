@@ -1,34 +1,41 @@
+import yaml
 import datetime
-
 from utils import Range
 
-GRADE_TITLES = ["wejściówka", "kartkówka", "test", "aktywność", "quiz", "kolokwium", "egzamin", "zadanie domowe"]
-SPECIALIZATIONS = ["informatyka", "matematyka", "fizyka", "chemia", "nauki społeczne", "prawo"]
-PHONE_NUMBER = "+48#########"
-ASSESSMENTS_QUESTIONS = [
-    "Czy zajęcia były prowadzone w sposób zrozumiały?",
-    "Czy zajęcia były prowadzone w sposób interesujący?"
-]
+with open('../config.yml', 'r') as file:
+    config = yaml.safe_load(file)
 
-STUDENTS_NUMBER = 100
-GROUPS_NUMBER = 10
-GRADES_NUMBER = 100
-SUBJECTS_NUMBER = 10
-TEACHERS_NUMBER = 10
-SURVEYS_NUMBER = 100
-MAX_CONSULTATIONS_PER_TEACHER = 20
+GRADE_TITLES = config['grade_titles']
+SPECIALIZATIONS = config['specializations']
+PHONE_NUMBER = config['phone_number']
+SUBJECTS = config['subjects']
+ASSESSMENTS_QUESTIONS = config['assessments_questions']
 
-STUDIES_NUMBER = 100
-TEACHINGS_NUMBER = 100
+STUDENTS_NUMBER = config['students_number']
+GROUPS_NUMBER = config['groups_number']
+GRADES_NUMBER = config['grades_number']
+SUBJECTS_NUMBER = config['subjects_number']
+TEACHERS_NUMBER = config['teachers_number']
+SURVEYS_NUMBER = config['surveys_number']
+MAX_CONSULTATIONS_PER_TEACHER = config['max_consultations_per_teacher']
 
-SURVEYS_DATE_RANGE = Range(datetime.datetime(2020, 1, 1), datetime.datetime.now())
-ASSESSMENTS_GRADE_RANGE = Range(1, 5)
-GROUP_GRADE_RANGE = Range(8, 12)
-GRADES_RANGE = Range(1, 10)
-STUDIES_YEAR_RANGE = Range(2020, 2024)
-SUBJECTS_YEAR_RANGE = Range(2020, 2024)
-CONSULTATIONS_PER_TEACHER_RANGE = Range(0, 25)
-CONSULTATIONS_DURATION_RANGE = Range(30, 180)
-CONSULTATIONS_DATETIME_RANGE = Range(datetime.datetime(2020, 1, 1, 0, 0, 0), datetime.datetime.now())
+STUDIES_NUMBER = config['studies_number']
+TEACHINGS_NUMBER = config['teachings_number']
 
-FAKER_LOCALIZATION = 'pl_PL'
+SURVEYS_DATE_RANGE = Range(
+    datetime.datetime.fromisoformat(config['surveys_date_range']['min']),
+    datetime.datetime.fromisoformat(config['surveys_date_range']['max'])
+)
+ASSESSMENTS_GRADE_RANGE = Range(config['assessments_grade_range']['min'], config['assessments_grade_range']['max'])
+GROUP_GRADE_RANGE = Range(config['group_grade_range']['min'], config['group_grade_range']['max'])
+GRADES_RANGE = Range(config['grades_range']['min'], config['grades_range']['max'])
+STUDIES_YEAR_RANGE = Range(config['studies_year_range']['min'], config['studies_year_range']['max'])
+SUBJECTS_YEAR_RANGE = Range(config['subjects_year_range']['min'], config['subjects_year_range']['max'])
+CONSULTATIONS_PER_TEACHER_RANGE = Range(config['consultations_per_teacher_range']['min'], config['consultations_per_teacher_range']['max'])
+CONSULTATIONS_DURATION_RANGE = Range(config['consultations_duration_range']['min'], config['consultations_duration_range']['max'])
+CONSULTATIONS_DATETIME_RANGE = Range(
+    datetime.datetime.fromisoformat(config['consultations_datetime_range']['min']),
+    datetime.datetime.fromisoformat(config['consultations_datetime_range']['max'])
+)
+
+FAKER_LOCALIZATION = config['faker_localization']

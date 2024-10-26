@@ -1,4 +1,5 @@
 import random
+import time
 from utils import save_to_csv
 from tables import *
 from config import *
@@ -52,8 +53,13 @@ def save_data(data_dict):
 
 
 def main():
+    start_time = time.time()
     data = generate_data()
     save_data(data)
+    end_time = time.time()
+
+    execution_time = end_time - start_time
+    print(f"Execution time: {execution_time:.2f} seconds")
 
 
 if __name__ == "__main__":
