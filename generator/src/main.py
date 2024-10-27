@@ -2,6 +2,7 @@ import time
 from utils import save_to_csv
 from config import *
 from generator import Generator
+from updater import Updater
 import concurrent.futures
 
 
@@ -11,13 +12,20 @@ def save_data(path, data_dict):
         concurrent.futures.wait(futures)
 
 
-def generate_data(config_number):
-    config = get_config_set(config_number)
-    generator = Generator(config)
+def prepare_data(config_number):
+    gen_config = get_generate_config(config_number)
+    upd_config = get_update_config(config_number)
+
+    generator = Generator(gen_config)
     start_time = time.time()
 
     data = generator.generate()
     save_data(f'time{config_number}', data)
+
+    if upd_config:
+        updater = Updater(upd_config)
+        updated_data = updater.update(data)
+        save_data(f'time{config_number}_update', updated_data)
     
     end_time = time.time()
     execution_time = end_time - start_time
@@ -25,8 +33,8 @@ def generate_data(config_number):
 
 
 def main():
-    for i in CONFIG_SETS.keys():
-        generate_data(config_number=i)
+    for i in GENERATE_CONFIGS.keys():
+        prepare_data(config_number=i)
 
 
 if __name__ == "__main__":

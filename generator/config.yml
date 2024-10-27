@@ -1,4 +1,4 @@
-time_moments:
+time_generate:
   1: 
     students_number: 100
     groups_number: 10
@@ -21,6 +21,18 @@ time_moments:
     date_range: 
       min: "2023-01-01"
       max: "2024-12-31"
+
+time_update:
+  1:
+    assessments_number: 10
+    consultations_number: 10
+    grades_number: 10
+    groups_number: 1
+    students_number: 1
+    studies_number: 10
+    surveys_number: 10
+    teachers_number: 1
+    teachings_number: 10
 
 max_consultations_per_teacher: 200
 
