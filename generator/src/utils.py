@@ -67,3 +67,11 @@ def save_attendance_to_csv(attendance_data, data, path, file_name):
                     student_attendance = attendance[date][student_idx]
                     f.write(f'{student_attendance.present},{student_attendance.excused},')
                 f.write('\n')
+
+            f.write(',,')
+            for date in dates:
+                f.write(f'{_get_average_attendance(attendance[date])},,')
+            f.write('\n')
+
+def _get_average_attendance(attendances):
+    return round(100 * sum([att.present for att in attendances]) / len(attendances), 2)
