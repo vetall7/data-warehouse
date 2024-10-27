@@ -12,7 +12,7 @@ time_generate:
       max: "2022-12-31"
     attendance_files:
       groups_number: 5
-      subjects_number: 20
+      max_files_per_group: 5
       dates_number: 30
   2: 
     students_number: 10
@@ -27,7 +27,7 @@ time_generate:
       max: "2024-12-31"
     attendance_files:
       groups_number: 1
-      subjects_number: 5
+      max_files_per_group: 5
       dates_number: 30
 
 time_update:

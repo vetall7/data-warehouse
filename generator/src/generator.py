@@ -8,7 +8,7 @@ class Generator:
     def __init__(self, config):
         self._config = config
 
-    def generate(self):
+    def generate(self, data_predefined=dict()):
         with concurrent.futures.ThreadPoolExecutor() as executor:
             # Independent tasks
             specializations_future = executor.submit(self._generate_specializations)
@@ -16,9 +16,15 @@ class Generator:
             teachers_future = executor.submit(self._generate_teachers)
             subjects_future = executor.submit(self._generate_subjects)
             
-            specializations = specializations_future.result()
             students = students_future.result()
             teachers = teachers_future.result()
+
+            # Specializations are constant
+            if data_predefined.get('specializations'):
+                specializations = data_predefined['specializations']
+            else:
+                specializations = specializations_future.result()
+
             subjects = subjects_future.result()
             
             # Dependent tasks
@@ -98,17 +104,21 @@ class Generator:
 
 
     def generate_attendance(self, data):
-        attendance_files = self._config['attendance_files']
-        groups_number, subjects_number = attendance_files['groups_number'], attendance_files['subjects_number']
+        groups_number = self._config['attendance_files']['groups_number']
         random_groups = random.sample(data['groups'], groups_number)
 
         attendance = dict()
 
         for group in random_groups:
-            random_subjects = random.sample(data['subjects'], subjects_number)
-            for subject in random_subjects:
+            group_subjects = self._get_group_subjects(data, group)
+            max_files = self._config['attendance_files']['max_files_per_group']
+            if len(group_subjects) > max_files:
+                group_subjects = random.sample(group_subjects, max_files)
+
+            for subject in group_subjects:
                 group_students = self._get_group_students(data, group, subject.year)
-                attendance[(group.id, subject.id)] = self._generate_attendance(subject, group_students)
+                if len(group_students):
+                    attendance[(group.id, subject.id)] = self._generate_attendance(subject, group_students)
 
         return attendance
 
@@ -119,7 +129,7 @@ class Generator:
         for _ in range(self._config['attendance_files']['dates_number']):
             attendance_list = []
             for student in students:
-                present = random.choice([True, False])
+                present = random.choices([True, False], weights=[2, 1])[0]
                 excused = random.choice([True, False]) if not present else False
                 attendance_list.append(Attendance(student.pesel, present, excused))
 
@@ -131,3 +141,7 @@ class Generator:
     def _get_group_students(self, data, group, year):
         student_ids = [study.student_id for study in data['studies'] if study.group_id == group.id and study.year == year]
         return [student for student in data['students'] if student.pesel in student_ids]
+
+    def _get_group_subjects(self, data, group):
+        subject_ids = [teaching.subject_id for teaching in data['teachings'] if teaching.group_id == group.id]
+        return [subject for subject in data['subjects'] if subject.id in subject_ids]
