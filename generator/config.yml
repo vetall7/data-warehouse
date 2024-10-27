@@ -23,7 +23,7 @@ time_generate:
       max: "2024-12-31"
 
 time_update:
-  1:
+  2:
     assessments_number: 10
     consultations_number: 10
     grades_number: 10

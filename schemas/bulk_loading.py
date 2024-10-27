@@ -10,7 +10,7 @@ conn = pyodbc.connect(
     'TrustServerCertificate=yes;'
 )
 
-tables = ["Grades", "Assessments", "Consultations", "Groups", "Specializations", "Studies", "Subjects", "Surveys", "Teachers", "Teachings"] 
+tables = ["Grades", "Assessments", "Consultations", "Groups", "Specializations", "Studies", "Subjects", "Surveys", "Teachers", "Teachings"]
 
 data_dir = "/data/time1"
 

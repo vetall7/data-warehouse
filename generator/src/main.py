@@ -11,8 +11,11 @@ def save_data(path, data_dict):
         futures = [executor.submit(save_to_csv, data, path, file_name) for file_name, data in data_dict.items()]
         concurrent.futures.wait(futures)
 
+data_to_update = None
 
 def prepare_data(config_number):
+    global data_to_update
+
     gen_config = get_generate_config(config_number)
     upd_config = get_update_config(config_number)
 
@@ -20,13 +23,21 @@ def prepare_data(config_number):
     start_time = time.time()
 
     data = generator.generate()
+
+    if upd_config is None:
+        data_to_update = data
+    else:
+        updater = Updater(upd_config)
+        updated_data = updater.update(data_to_update)
+        # Concatenate data_to_update and updated_data without rewriting keys
+        concatenated_data = {
+            k: (data.get(k, []) or []) + (updated_data.get(k, []) or [])
+            for k in data.keys() if k in updated_data.keys()
+        }
+        data = concatenated_data
+    
     save_data(f'time{config_number}', data)
 
-    if upd_config:
-        updater = Updater(upd_config)
-        updated_data = updater.update(data)
-        save_data(f'time{config_number}_update', updated_data)
-    
     end_time = time.time()
     execution_time = end_time - start_time
     print(f"Execution time {config_number}: {execution_time:.2f} seconds")
