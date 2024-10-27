@@ -1,10 +1,6 @@
 import random
 
-import faker
-
 from config import *
-
-from config import faker
 
 class Updater:
     def __init__(self, config):

@@ -1,6 +1,4 @@
-from faker import Faker
 import random
-import datetime
 from config import *
 import itertools
 from random_pesel import RandomPESEL

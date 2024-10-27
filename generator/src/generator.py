@@ -2,14 +2,13 @@ import random
 import concurrent.futures
 from tables import *
 from config import *
-from multiprocessing import cpu_count
 
 class Generator:
     def __init__(self, config):
         self._config = config
 
     def generate(self):
-        with concurrent.futures.ProcessPoolExecutor(max_workers=cpu_count()) as executor:
+        with concurrent.futures.ThreadPoolExecutor() as executor:
             # Independent tasks
             specializations_future = executor.submit(self._generate_specializations)
             students_future = executor.submit(self._generate_students)
