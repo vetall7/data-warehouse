@@ -40,7 +40,10 @@ class Updater:
 
     def _update_consultations(self, consultations):
         for consultation in consultations:
-            consultation.duration = CONSULTATIONS_DURATION_RANGE.random()
+            time = CONSULTATIONS_DURATION_RANGE.random()
+            hours = time // 60
+            minutes = time % 60
+            consultation.duration = datetime.time(hour=hours, minute=minutes)
         return consultations
 
     def _update_students(self, students):
