@@ -1,0 +1,3 @@
+generator/data/time*/
+__pycache__/
+.venv

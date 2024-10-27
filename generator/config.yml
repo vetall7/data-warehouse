@@ -10,6 +10,10 @@ time_generate:
     date_range: 
       min: "2020-01-01"
       max: "2022-12-31"
+    attendance_files:
+      groups_number: 5
+      max_files_per_group: 5
+      dates_number: 30
   2: 
     students_number: 10
     groups_number: 1
@@ -21,6 +25,10 @@ time_generate:
     date_range: 
       min: "2023-01-01"
       max: "2024-12-31"
+    attendance_files:
+      groups_number: 1
+      max_files_per_group: 5
+      dates_number: 30
 
 time_update:
   1:
