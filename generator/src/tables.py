@@ -4,9 +4,9 @@ import datetime
 from config import *
 import itertools
 from random_pesel import RandomPESEL
+from config import faker
 
 pesel = RandomPESEL()
-faker = Faker(FAKER_LOCALIZATION)
 
 id_iters = {
     'student': itertools.count(1),
@@ -27,7 +27,7 @@ class Students:
         self.pesel = pesel.generate(min_age=13, max_age=20)
         self.name = faker.name()
         self.phone = faker.unique.numerify(PHONE_NUMBER)
-        self.address = faker.address()
+        self.address = faker.address().replace('\n', ' ')
 
 class Studies:
     def __init__(self, student_pesel, group_id, config):
@@ -96,4 +96,4 @@ class Consultations:
         self.id = next(id_iters['consultation'])
         self.teacher_id = teacher_id
         self.date = faker.date_time_between(config['date_range'].min, config['date_range'].max)
-        self.duration = datetime.time(minutes=CONSULTATIONS_DURATION_RANGE.random())
+        self.duration = CONSULTATIONS_DURATION_RANGE.random()
