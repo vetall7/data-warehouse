@@ -24,7 +24,8 @@ This tool generates mock data for Springfield School based on a predefined schem
 - `src` - Source code of the generator
   - `requirements.txt` - List of dependencies
   - `main.py` - Entry point of the generator
-  - `generator.py` - Main generator class
+  - `generator.py` - Class for generating data based on the config
+  - `updater.py` - Class for modifying generated data based on the config
   - `config.py` - Configuration file
   - `tables.py` - Table classes
   - `utils.py` - Utility functions
