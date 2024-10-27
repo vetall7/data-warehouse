@@ -16,6 +16,7 @@ This tool generates mock data for Springfield School based on a predefined schem
 
 3. **Access Generated Data**:
     - The generated data will be stored in the `data` folder.
+    - The data about attendance is stored in the `data/*/attendance` folder.
     - Each time period will have its own subfolder.
     - Data will be saved in CSV format, with filenames corresponding to table names.
 

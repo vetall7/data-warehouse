@@ -2,6 +2,7 @@ import random
 import concurrent.futures
 from tables import *
 from config import *
+from utils import Attendance
 
 class Generator:
     def __init__(self, config):
@@ -94,3 +95,39 @@ class Generator:
         for teacher in teachers:
             consultations.extend(self._generate_entities(Consultations, CONSULTATIONS_PER_TEACHER_RANGE.random(), lambda: (teacher.pesel, self._config)))
         return consultations
+
+
+    def generate_attendance(self, data):
+        attendance_files = self._config['attendance_files']
+        groups_number, subjects_number = attendance_files['groups_number'], attendance_files['subjects_number']
+        random_groups = random.sample(data['groups'], groups_number)
+
+        attendance = dict()
+
+        for group in random_groups:
+            random_subjects = random.sample(data['subjects'], subjects_number)
+            for subject in random_subjects:
+                group_students = self._get_group_students(data, group, subject.year)
+                attendance[(group.id, subject.id)] = self._generate_attendance(subject, group_students)
+
+        return attendance
+
+
+    def _generate_attendance(self, subject, students):
+        attendances = dict()
+        date = datetime.date(year=subject.year, month=10, day=1) # start of the academic year
+        for _ in range(self._config['attendance_files']['dates_number']):
+            attendance_list = []
+            for student in students:
+                present = random.choice([True, False])
+                excused = random.choice([True, False]) if not present else False
+                attendance_list.append(Attendance(student.pesel, present, excused))
+
+            attendances[date] = attendance_list
+            date += datetime.timedelta(weeks=1)
+
+        return attendances
+        
+    def _get_group_students(self, data, group, year):
+        student_ids = [study.student_id for study in data['studies'] if study.group_id == group.id and study.year == year]
+        return [student for student in data['students'] if student.pesel in student_ids]
