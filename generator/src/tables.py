@@ -1,6 +1,4 @@
-from faker import Faker
 import random
-import datetime
 from config import *
 import itertools
 from random_pesel import RandomPESEL
@@ -96,8 +94,6 @@ class Consultations:
         self.id = next(id_iters['consultation'])
         self.teacher_id = teacher_id
         self.date = faker.date_time_between(config['date_range'].min, config['date_range'].max)
+        minutes = CONSULTATIONS_DURATION_RANGE.random()
+        self.duration = datetime.time(hour = minutes // 60, minute = minutes % 60)
         
-        time = CONSULTATIONS_DURATION_RANGE.random()
-        hours = time // 60
-        minutes = time % 60
-        self.duration = datetime.time(hour=hours, minute=minutes)
