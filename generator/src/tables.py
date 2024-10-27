@@ -96,4 +96,4 @@ class Consultations:
         self.id = next(id_iters['consultation'])
         self.teacher_id = teacher_id
         self.date = faker.date_time_between(config['date_range'].min, config['date_range'].max)
-        self.duration = datetime.timedelta(minutes=CONSULTATIONS_DURATION_RANGE.random())
+        self.duration = datetime.time(minutes=CONSULTATIONS_DURATION_RANGE.random())
