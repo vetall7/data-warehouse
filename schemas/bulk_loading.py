@@ -10,10 +10,10 @@ conn = pyodbc.connect(
     'TrustServerCertificate=yes;'
 )
 
-tables = ["Grades", "Assessments", "Consultations", "Groups", "Specializations", "Studies", "Subjects", "Surveys", "Teachers", "Teachings"]
+tables = ["Grades", "Assessments", "Consultations", "Groups", "Specializations", "Studies", "Subjects", "Surveys", "Teachers", "Teachings", "Students"]
+times = ["time1", "time2"]
 
-data_dir = "/data/time1"
-
+data_dir = "/data"
 def bulk_insert(file_path, table_name):
     query = f"""
     BULK INSERT {table_name}
@@ -29,11 +29,12 @@ def bulk_insert(file_path, table_name):
     cursor.commit()
     print(f"Data from {file_path} inserted into {table_name}")
 
-
-for table in tables:
-    file_name = table.lower() + ".csv"
-    file_path = os.path.join(data_dir, file_name)
-    bulk_insert(file_path, table)
+for time in times:
+    for table in tables:
+        file_name = table.lower() + ".csv"
+        file_path = os.path.join(data_dir, time, file_name)
+        bulk_insert(file_path, table)
+    print(f"Data for {time} loaded successfully")
 
 conn.close()
 
