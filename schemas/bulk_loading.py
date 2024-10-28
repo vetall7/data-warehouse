@@ -39,6 +39,12 @@ def bulk_insert(file_path, table_name):
     columns, primary_key = get_columns(cursor, table_name)
     non_key_columns = [col for col in columns if col != primary_key]
 
+    cursor.execute(f"EXEC xp_fileexist '{file_path}'")
+    file_exists = cursor.fetchone()[0]
+    if not file_exists:
+        print(f"File {file_path} not found, skip...")
+        return
+
     cursor.execute(f"SELECT TOP 0 * INTO {temp_table} FROM {table_name}")
     conn.commit()
 

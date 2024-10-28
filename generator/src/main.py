@@ -11,7 +11,7 @@ def save_data(path, data_dict):
         futures = [executor.submit(save_to_csv, data, path, file_name) for file_name, data in data_dict.items()]
         concurrent.futures.wait(futures)
 
-data_to_update = None
+data_to_update = dict()
 
 def prepare_data(config_number):
     global data_to_update
@@ -22,7 +22,7 @@ def prepare_data(config_number):
     generator = Generator(gen_config)
     start_time = time.time()
 
-    data = generator.generate()
+    data = generator.generate(data_to_update)
 
     attendance = generator.generate_attendance(data)
     save_attendance_to_csv(attendance, data, f'time{config_number}', 'attendance')
@@ -35,7 +35,7 @@ def prepare_data(config_number):
         # Concatenate data_to_update and updated_data without rewriting keys
         concatenated_data = {
             k: (data.get(k, []) or []) + (updated_data.get(k, []) or [])
-            for k in data.keys() if k in updated_data.keys()
+            for k in data.keys()
         }
         data = concatenated_data
     
