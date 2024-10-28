@@ -31,7 +31,7 @@ time_generate:
       dates_number: 30
 
 time_update:
-  1:
+  2:
     assessments_number: 10
     consultations_number: 10
     grades_number: 10
