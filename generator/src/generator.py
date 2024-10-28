@@ -82,16 +82,16 @@ class Generator:
         return [Subjects(name, year) for name in SUBJECTS for year in range(self._config['date_range'].min.year, self._config['date_range'].max.year + 1)]
 
     def _generate_studies(self, students, groups):
-        return self._generate_entities(Studies, self._config['studies_number'], lambda: (random.choice(students).pesel, random.choice(groups).id, self._config))
+        return self._generate_entities(Studies, self._config['studies_number'], lambda: (random.choice(students).id, random.choice(groups).id, self._config))
 
     def _generate_grades(self, students, subjects):
-        return self._generate_entities(Grades, self._config['grades_number'], lambda: (random.choice(students).pesel, random.choice(subjects).id, random.choice(GRADE_TITLES)))
+        return self._generate_entities(Grades, self._config['grades_number'], lambda: (random.choice(students).id, random.choice(subjects).id, random.choice(GRADE_TITLES)))
 
     def _generate_surveys(self, students, subjects, teachers):
-        return self._generate_entities(Surveys, self._config['surveys_number'], lambda: (random.choice(students).pesel, random.choice(subjects).id, random.choice(teachers).pesel, self._config))
+        return self._generate_entities(Surveys, self._config['surveys_number'], lambda: (random.choice(students).id, random.choice(subjects).id, random.choice(teachers).id, self._config))
 
     def _generate_teachings(self, subjects, teachers, groups):
-        return self._generate_entities(Teachings, self._config['teachings_number'], lambda: (random.choice(subjects).id, random.choice(teachers).pesel, random.choice(groups).id))
+        return self._generate_entities(Teachings, self._config['teachings_number'], lambda: (random.choice(subjects).id, random.choice(teachers).id, random.choice(groups).id))
 
     def _generate_assessments(self, surveys):
         return [Assessments(survey.id, question) for question in ASSESSMENTS_QUESTIONS for survey in surveys]
@@ -99,7 +99,7 @@ class Generator:
     def _generate_consultations(self, teachers):
         consultations = []
         for teacher in teachers:
-            consultations.extend(self._generate_entities(Consultations, CONSULTATIONS_PER_TEACHER_RANGE.random(), lambda: (teacher.pesel, self._config)))
+            consultations.extend(self._generate_entities(Consultations, CONSULTATIONS_PER_TEACHER_RANGE.random(), lambda: (teacher.id, self._config)))
         return consultations
 
 
@@ -140,7 +140,7 @@ class Generator:
         
     def _get_group_students(self, data, group, year):
         student_ids = [study.student_id for study in data['studies'] if study.group_id == group.id and study.year == year]
-        return [student for student in data['students'] if student.pesel in student_ids]
+        return [student for student in data['students'] if student.id in student_ids]
 
     def _get_group_subjects(self, data, group):
         subject_ids = [teaching.subject_id for teaching in data['teachings'] if teaching.group_id == group.id]
