@@ -1,5 +1,5 @@
 import time
-from utils import save_to_csv
+from utils import save_to_csv, save_attendance_to_csv
 from config import *
 from generator import Generator
 from updater import Updater
@@ -23,6 +23,9 @@ def prepare_data(config_number):
     start_time = time.time()
 
     data = generator.generate()
+
+    attendance = generator.generate_attendance(data)
+    save_attendance_to_csv(attendance, data, f'time{config_number}', 'attendance')
 
     if upd_config is None:
         data_to_update = data
