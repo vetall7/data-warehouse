@@ -30,11 +30,13 @@ class Students:
         self.name = faker.name()
         self.phone = faker.unique.numerify(PHONE_NUMBER)
         self.address = faker.address().replace('\n', ' ')
+        self.updated_at = faker.date_time_this_year(before_now=True, after_now=False)
 
     @classmethod
     def from_student(cls, student):
         new_student = copy.deepcopy(student)
         new_student.id = next(id_iters['student'])
+        new_student.updated_at = datetime.datetime.now()
         return new_student
 
 class Studies:
@@ -52,11 +54,13 @@ class Teachers:
         self.name = faker.name()
         self.email = faker.email()
         self.phone = faker.unique.numerify(PHONE_NUMBER)
+        self.updated_at = faker.date_time_this_year(before_now=True, after_now=False)
 
     @classmethod
     def from_teacher(cls, teacher):
         new_teacher = copy.deepcopy(teacher)
         new_teacher.id = next(id_iters['teacher'])
+        new_teacher.updated_at = datetime.datetime.now()
         return new_teacher
 
 class Subjects:
@@ -72,11 +76,13 @@ class Groups:
         self.name = faker.unique.bothify('##-?', letters="ABC")
         self.grade = GROUP_GRADE_RANGE.random()
         self.specialization_id = specialization_id
+        self.updated_at = faker.date_time_this_year(before_now=True, after_now=False)
     
     @classmethod
     def from_group(cls, group):
         new_group = copy.deepcopy(group)
         new_group.id = next(id_iters['student'])
+        new_group.updated_at = datetime.datetime.now()
         return new_group
 
 class Specializations:
