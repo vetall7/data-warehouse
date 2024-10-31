@@ -13,8 +13,8 @@ class Range:
     
 
 class Attendance:
-    def __init__(self, student_id, present, excused):
-        self.student_id = student_id
+    def __init__(self, student_pesel, present, excused):
+        self.student_pesel = student_pesel
         self.present = present
         self.excused = excused
 
@@ -56,10 +56,10 @@ def save_attendance_to_csv(attendance_data, data, path, file_name):
             dates = sorted(attendance.keys())
             f.write(f',,{",".join([str(date) for date in dates])}\n')
 
-            student_ids = list(map(lambda att: att.student_id, attendance[dates[0]]))
+            student_pesels = list(map(lambda att: att.student_pesel, attendance[dates[0]]))
 
-            for student_idx, student_id in enumerate(student_ids):
-                student = [student for student in data['students'] if student.pesel == student_id][0]
+            for student_idx, student_pesel in enumerate(student_pesels):
+                student = [student for student in data['students'] if student.pesel == student_pesel][0]
                 f.write(f'{student.name},')
                 f.write(f'{student.pesel},')
 

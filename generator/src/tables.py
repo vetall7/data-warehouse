@@ -1,8 +1,8 @@
+import copy
 import random
 from config import *
 import itertools
 from random_pesel import RandomPESEL
-from config import faker
 
 pesel = RandomPESEL()
 
@@ -20,12 +20,24 @@ id_iters = {
     'consultation': itertools.count(1)
 }
 
+# TODO: add attribute for marking active records (e.g date)
+
 class Students:
     def __init__(self):
+        self.id = next(id_iters['student'])
+        # BK: pesel
         self.pesel = pesel.generate(min_age=13, max_age=20)
         self.name = faker.name()
         self.phone = faker.unique.numerify(PHONE_NUMBER)
         self.address = faker.address().replace('\n', ' ')
+        self.updated_at = faker.date_time_this_year(before_now=True, after_now=False)
+
+    @classmethod
+    def from_student(cls, student):
+        new_student = copy.deepcopy(student)
+        new_student.id = next(id_iters['student'])
+        new_student.updated_at = datetime.datetime.now()
+        return new_student
 
 class Studies:
     def __init__(self, student_pesel, group_id, config):
@@ -36,10 +48,20 @@ class Studies:
 
 class Teachers:
     def __init__(self):
+        self.id = next(id_iters['teacher'])
+        # BK: pesel / email / phone
         self.pesel = pesel.generate(min_age=20, max_age=70)
         self.name = faker.name()
         self.email = faker.email()
         self.phone = faker.unique.numerify(PHONE_NUMBER)
+        self.updated_at = faker.date_time_this_year(before_now=True, after_now=False)
+
+    @classmethod
+    def from_teacher(cls, teacher):
+        new_teacher = copy.deepcopy(teacher)
+        new_teacher.id = next(id_iters['teacher'])
+        new_teacher.updated_at = datetime.datetime.now()
+        return new_teacher
 
 class Subjects:
     def __init__(self, name, year):
@@ -50,9 +72,18 @@ class Subjects:
 class Groups:
     def __init__(self, specialization_id):
         self.id = next(id_iters['group'])
+        # BK: name + grade
         self.name = faker.unique.bothify('##-?', letters="ABC")
         self.grade = GROUP_GRADE_RANGE.random()
         self.specialization_id = specialization_id
+        self.updated_at = faker.date_time_this_year(before_now=True, after_now=False)
+    
+    @classmethod
+    def from_group(cls, group):
+        new_group = copy.deepcopy(group)
+        new_group.id = next(id_iters['student'])
+        new_group.updated_at = datetime.datetime.now()
+        return new_group
 
 class Specializations:
     def __init__(self, name):
