@@ -20,8 +20,6 @@ id_iters = {
     'consultation': itertools.count(1)
 }
 
-# TODO: add attribute for marking active records (e.g date)
-
 class Students:
     def __init__(self):
         self.id = next(id_iters['student'])

@@ -14,7 +14,6 @@ CONSULTATIONS_PER_TEACHER_RANGE = Range(config['consultations_per_teacher_range'
 CONSULTATIONS_DURATION_RANGE = Range(config['consultations_duration_range']['min'], config['consultations_duration_range']['max'])
 PHONE_NUMBER = config['phone_number']
 GRADE_TITLES = config['grade_titles']
-SPECIALIZATIONS = config['specializations']
 SUBJECTS = config['subjects']
 ASSESSMENTS_QUESTIONS = config['assessments_questions']
 

@@ -8,7 +8,7 @@ class Generator:
     def __init__(self, config):
         self._config = config
 
-    def generate(self, data_predefined=None):
+    def generate(self):
         with concurrent.futures.ThreadPoolExecutor() as executor:
             # Independent tasks
             specializations_future = executor.submit(self._generate_specializations)
@@ -18,13 +18,7 @@ class Generator:
             
             students = students_future.result()
             teachers = teachers_future.result()
-
-            # Specializations are constant
-            if data_predefined and data_predefined.get('specializations'):
-                specializations = data_predefined['specializations']
-            else:
-                specializations = specializations_future.result()
-
+            specializations = specializations_future.result()
             subjects = subjects_future.result()
             
             # Dependent tasks
@@ -67,7 +61,7 @@ class Generator:
         ]
 
     def _generate_specializations(self):
-        return [Specializations(name) for name in SPECIALIZATIONS]
+        return [Specializations(name) for name in self._config['specializations']]
 
     def _generate_students(self):
         return self._generate_entities(Students, self._config['students_number'])
