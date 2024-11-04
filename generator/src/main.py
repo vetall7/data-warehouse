@@ -22,7 +22,7 @@ def prepare_data(config_number):
     generator = Generator(gen_config)
     start_time = time.time()
 
-    data = generator.generate(data_to_update)
+    data = generator.generate()
 
     attendance = generator.generate_attendance(data)
     save_attendance_to_csv(attendance, data, f'time{config_number}', 'attendance')
