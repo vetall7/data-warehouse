@@ -79,7 +79,7 @@ class Generator:
         return self._generate_entities(Studies, self._config['studies_number'], lambda: (random.choice(students).id, random.choice(groups).id, self._config))
 
     def _generate_grades(self, students, subjects):
-        return self._generate_entities(Grades, self._config['grades_number'], lambda: (random.choice(students).id, random.choice(subjects).id, random.choice(GRADE_TITLES)))
+        return self._generate_entities(Grades, self._config['grades_number'], lambda: (random.choice(students).id, random.choice(subjects).id, random.choice(GRADE_TITLES), self._config))
 
     def _generate_surveys(self, students, subjects, teachers):
         return self._generate_entities(Surveys, self._config['surveys_number'], lambda: (random.choice(students).id, random.choice(subjects).id, random.choice(teachers).id, self._config))

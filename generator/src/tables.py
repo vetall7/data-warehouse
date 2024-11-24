@@ -89,10 +89,11 @@ class Specializations:
         self.name = name
 
 class Grades:
-    def __init__(self, student_id, subject_id, title):
+    def __init__(self, student_id, subject_id, title, config):
         self.id = next(id_iters['grade'])
         self.title = title
         self.grade = GRADES_RANGE.random()
+        self.date = faker.date_between(config['date_range'].min, config['date_range'].max)
         self.student_id = student_id
         self.subject_id = subject_id
 
