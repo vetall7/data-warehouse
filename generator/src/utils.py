@@ -47,14 +47,14 @@ def save_attendance_to_csv(attendance_data, data, path, file_name):
 
     for (group_id, subject_id), attendance in attendance_data.items():
         save_path = os.path.join(data_dir, f'{file_name}_{group_id}_{subject_id}.csv')
-        with open(save_path, 'w') as f:
+        with open(save_path, 'w', encoding='utf-8') as f:
             subject = [subject for subject in data['subjects'] if subject.id == subject_id][0]
             group = [group for group in data['groups'] if group.id == group_id][0]
             f.write(f'{subject.name} {subject.year}\n')
             f.write(f'{group.grade} {group.name}\n')
 
             dates = sorted(attendance.keys())
-            f.write(f',,{",".join([str(date) for date in dates])}\n')
+            f.write(f',,{",".join([str(date) + "," for date in dates])}\n')
 
             student_pesels = list(map(lambda att: att.student_pesel, attendance[dates[0]]))
 
