@@ -50,7 +50,13 @@ def save_attendance_to_csv(attendance_data, data, path, file_name):
         with open(save_path, 'w', encoding='utf-8') as f:
             subject = [subject for subject in data['subjects'] if subject.id == subject_id][0]
             group = [group for group in data['groups'] if group.id == group_id][0]
-            f.write(f'{subject.name} {subject.year}\n')
+
+            # get random teacher who conducted the lesson
+            teachings = [teaching for teaching in data['teachings'] if teaching.group_id == group_id and teaching.subject_id == subject_id] 
+            teacher_id = random.choice(teachings).teacher_id
+            teacher = [teacher for teacher in data['teachers'] if teacher.id == teacher_id][0]
+
+            f.write(f'{subject.name} {subject.year},{teacher.pesel}\n')
             f.write(f'{group.grade} {group.name}\n')
 
             dates = sorted(attendance.keys())
