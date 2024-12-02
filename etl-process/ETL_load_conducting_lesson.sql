@@ -12,7 +12,7 @@ CREATE TABLE #Files (FileName NVARCHAR(255));
 
 -- Insert file names into the table from the target directory
 INSERT INTO #Files (FileName)
-EXEC xp_cmdshell 'dir D:\Studying\sem_5\hd\data-warehouse\generator\data\time2\attendance\ /b';
+EXEC xp_cmdshell 'dir D:\Studying\sem_5\hd\data-warehouse\generator\data\time1\attendance\ /b';
 
 -- Declare variables for dynamic SQL execution
 DECLARE @FileName NVARCHAR(255);
@@ -82,7 +82,7 @@ BEGIN
 
 
     SET @SQL = N'BULK INSERT StagingCSVRaw
-                 FROM ''D:\Studying\sem_5\hd\data-warehouse\generator\data\time2\attendance\' + @FileName + '''
+                 FROM ''D:\Studying\sem_5\hd\data-warehouse\generator\data\time1\attendance\' + @FileName + '''
                  WITH (
                      FIELDTERMINATOR = '','', 
                      ROWTERMINATOR = ''\n'',
@@ -330,11 +330,18 @@ BEGIN
 
     -- Fetch the next file
     FETCH NEXT FROM FileCursor INTO @FileName;
-
 END;
 
 -- Cleanup
 CLOSE FileCursor;
+DROP TABLE IF EXISTS Attendance;
+DROP TABLE IF EXISTS StagingDates;
+DROP TABLE IF EXISTS StagingAttendanceRate;
+DROP TABLE IF EXISTS StagingCSVRaw;
+DROP TABLE IF EXISTS StagingCSV;
+DROP TABLE IF EXISTS StagingGrades;
+DROP TABLE IF EXISTS StagingAverageGrades;
+DROP TABLE IF EXISTS StagingAttendance;
 DEALLOCATE FileCursor;
 
 DROP TABLE #Files;
