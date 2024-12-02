@@ -31,12 +31,14 @@ def prepare_data(config_number):
         data_to_update = data
     else:
         updater = Updater(upd_config)
-        updated_data = updater.update(data_to_update)
+        updated_data = updater.update(data_to_update) # updated time1
+        
         # Concatenate data_to_update and updated_data without rewriting keys
         concatenated_data = {
             k: (data.get(k, []) or []) + (updated_data.get(k, []) or [])
             for k in data.keys()
-        }
+        } # updated t1 + t2
+
         data = concatenated_data
     
     save_data(f'time{config_number}', data)
