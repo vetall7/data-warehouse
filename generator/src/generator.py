@@ -7,6 +7,7 @@ from utils import Attendance
 class Generator:
     def __init__(self, config):
         self._config = config
+        self._dates_by_subject_id = dict()
 
     def generate(self):
         with concurrent.futures.ThreadPoolExecutor() as executor:
@@ -24,6 +25,9 @@ class Generator:
             # Dependent tasks
             groups_future = executor.submit(self._generate_groups, specializations)
             studies_future = executor.submit(self._generate_studies, students, groups_future.result())
+
+            self._init_grade_dates(subjects)
+
             grades_future = executor.submit(self._generate_grades, students, subjects)
             consultations_future = executor.submit(self._generate_consultations, teachers)
             surveys_future = executor.submit(self._generate_surveys, students, subjects, teachers)
@@ -79,7 +83,7 @@ class Generator:
         return self._generate_entities(Studies, self._config['studies_number'], lambda: (random.choice(students).id, random.choice(groups).id, self._config))
 
     def _generate_grades(self, students, subjects):
-         return self._generate_entities(Grades, self._config['grades_number'], lambda: (random.choice(students).id, random.choice(subjects).id, random.choice(GRADE_TITLES), self._config))
+         return self._generate_entities(Grades, self._config['grades_number'], lambda: (random.choice(students).id, random.choice(subjects).id, random.choice(GRADE_TITLES), self._config, self._dates_by_subject_id))
 
     def _generate_surveys(self, students, subjects, teachers):
         return self._generate_entities(Surveys, self._config['surveys_number'], lambda: (random.choice(students).id, random.choice(subjects).id, random.choice(teachers).id, self._config))
@@ -139,3 +143,12 @@ class Generator:
     def _get_group_subjects(self, data, group):
         subject_ids = [teaching.subject_id for teaching in data['teachings'] if teaching.group_id == group.id]
         return [subject for subject in data['subjects'] if subject.id in subject_ids]
+
+    def _init_grade_dates(self, subjects):
+        for subject in subjects:
+            date = datetime.date(year=subject.year, month=10, day=1) # start of the academic year
+            for _ in range(self._config['attendance_files']['dates_number']):
+                if (self._dates_by_subject_id.get(subject.id) is None):
+                    self._dates_by_subject_id[subject.id] = []
+                self._dates_by_subject_id[subject.id].append(date)
+                date += datetime.timedelta(weeks=1)
