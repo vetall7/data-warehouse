@@ -89,13 +89,13 @@ class Specializations:
         self.name = name
 
 class Grades:
-    def __init__(self, student_id, subject_id, title, config):
+    def __init__(self, student_id, subject_id, title, config, dates_by_subject):
         self.id = next(id_iters['grade'])
         self.title = title
         self.grade = GRADES_RANGE.random()
         self.student_id = student_id
         self.subject_id = subject_id
-        self.date = faker.date_between(config['date_range'].min, config['date_range'].max)
+        self.date = random.choice(dates_by_subject[subject_id])
 
 class Assessments:
     def __init__(self, survey_id, question):
