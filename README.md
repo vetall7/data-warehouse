@@ -50,6 +50,8 @@ Key stages of the work:
 
 * Developing a data generator to produce large volumes of mock data and implementing bulk inserts for efficient data loading.
 * Designing the data warehouse architecture.
+  ![image](https://github.com/user-attachments/assets/dcc7c79a-7f92-41c8-82ae-5fd0aed83ac0)
+
 * Implementing the data warehouse, including defining measures, dimensions, and other key components.
 * Implementing the ETL process, primarily using T-SQL.
 * Writing queries in MDX to analyze data within the data warehouse.
@@ -71,6 +73,8 @@ Key stages of the work:
 
 
 ## Demo
+![image](https://github.com/user-attachments/assets/d949443e-9220-4c7a-8e3c-8abc2efd6f6e)
+![image](https://github.com/user-attachments/assets/2b8e918c-8ca7-418b-a4f7-30f8c89e240f)
 
 
 <!-- CONTRIBUTING -->
